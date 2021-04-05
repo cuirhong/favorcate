@@ -1,3 +1,4 @@
+import 'package:favorcate/ui/pages/home/home_drawer.dart';
 import 'package:favorcate/ui/pages/main/initialize_items.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class _MainScreenState extends State<HYMainScreen> {
         index: _screenIndex,
         children: pages,
       ),
+      drawer: HYHomeDrawer(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _screenIndex,
         selectedFontSize: 14,
