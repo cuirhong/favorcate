@@ -1,4 +1,5 @@
 import 'package:favorcate/core/router/router.dart';
+import 'package:favorcate/core/viewmodel/favor_view_model.dart';
 import 'package:favorcate/core/viewmodel/meal_view_model.dart';
 import 'package:favorcate/ui/shared/app_theme.dart';
 import 'package:favorcate/ui/shared/size_fit.dart';
@@ -6,12 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (ctx) => HYMealViewModel(),
-      child: MyApp(),
-    ),
-  );
+  runApp(MultiProvider(
+    child: MyApp(),
+    providers: [
+      ChangeNotifierProvider(create: (ctx) => HYMealViewModel()),
+      ChangeNotifierProvider(create: (ctx) => HYFavorViewModel())
+    ],
+  ));
 }
 
 class MyApp extends StatelessWidget {

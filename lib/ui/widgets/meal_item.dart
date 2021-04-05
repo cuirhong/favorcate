@@ -1,10 +1,12 @@
 import 'package:favorcate/core/model/detail_model.dart';
 import 'package:favorcate/core/model/meal_model.dart';
+import 'package:favorcate/core/viewmodel/favor_view_model.dart';
 import 'package:favorcate/ui/pages/base/base_less_widget.dart';
 import 'package:favorcate/ui/pages/detail/detail.dart';
 import 'package:favorcate/ui/widgets/operation_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HYMealItem extends BaseLessWidget {
   final cardRadius = 12.px;
@@ -24,8 +26,9 @@ class HYMealItem extends BaseLessWidget {
           children: [buildBasicInfo(context), buildOperationInfo()],
         ),
       ),
-      onTap: (){
-        Navigator.of(context).pushNamed(DYDetailScreen.routeName,arguments: _mealModel);
+      onTap: () {
+        Navigator.of(context)
+            .pushNamed(DYDetailScreen.routeName, arguments: _mealModel);
       },
     );
   }
@@ -64,15 +67,32 @@ class HYMealItem extends BaseLessWidget {
   ///
   Widget buildOperationInfo() {
     return Padding(
-      padding: EdgeInsets.all(16.px),
+      padding: EdgeInsets.all(5.px),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           HYOperationItem(Icon(Icons.schedule), "${_mealModel.duration}分钟"),
           HYOperationItem(Icon(Icons.restaurant), "${_mealModel.complexStr}"),
-          HYOperationItem(Icon(Icons.favorite), "未收藏"),
+          buildFavorItem(),
         ],
       ),
     );
+  }
+
+  Widget buildFavorItem() {
+    return Consumer<HYFavorViewModel>(builder: (ctx, favorVM, child) {
+      final isFavor = favorVM.isFavor(_mealModel);
+      final iconData = isFavor ? Icons.favorite : Icons.favorite_border;
+      final favorColor = isFavor ? Colors.red : Colors.black;
+      final title = isFavor ? '已收藏' : "未收藏";
+
+      return GestureDetector(
+        child: HYOperationItem(Icon(iconData, color: favorColor), title,
+            textColor: favorColor),
+        onTap: () {
+          favorVM.handleMeal(_mealModel);
+        },
+      );
+    });
   }
 }

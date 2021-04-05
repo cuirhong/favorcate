@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'favor_content.dart';
+
 class HYFavorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -8,9 +10,7 @@ class HYFavorScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('我的收藏'),
       ),
-      body: Center(
-        child: Text('我的收藏'),
-      ),
+      body: HYFavorContent(),
     );
   }
 }
